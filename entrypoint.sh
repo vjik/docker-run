@@ -14,10 +14,8 @@ fi
 
 inputOptions="--rm ${INPUT_OPTIONS-}"
 
-command=$(printf '%s' "$INPUT_COMMAND" | tr '\n' ';')
-
 # shellcheck disable=SC2086
 exec docker run --rm \
     ${inputOptions} \
     "$INPUT_IMAGE" \
-    sh -c "$command"
+    sh -c "$INPUT_COMMAND"

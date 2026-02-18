@@ -46,3 +46,24 @@ jobs:
             echo "Volume mount test failed: expected 'some text', got '$result'"
             exit 1
           fi
+
+  multiline-command-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Run docker action with multiline command
+        uses: ./
+        with:
+          image: docker:29.0.3
+          options: -v ${{ github.workspace }}:/work
+          command: |
+            echo "line1
+            line2" > /work/multiline.txt
+      - name: Check multiline output
+        run: |
+          expected="line1\nline2"
+          result=$(cat multiline.txt)
+          if [ "$result" != "$expected" ]; then
+            echo "Multiline test failed: expected '$expected', got '$result'"
+            exit 1
+          fi
