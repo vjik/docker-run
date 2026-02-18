@@ -85,6 +85,25 @@ jobs:
         run: |
           result=$(cat env-result.txt)
           if [ "$result" != "Hello World" ]; then
-            echo "Env variable test failed: expected 'Hello_World', got '$result'"
+            echo "Env variable test failed: expected 'Hello World', got '$result'"
+            exit 1
+          fi
+
+  bash-command-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Run docker action with bash -c
+        uses: ./
+        with:
+          image: bash:5
+          volumes: ${{ github.workspace }}:/work
+          command: |
+            bash -c 'arr=(one two three); echo "${arr[@]}" > /work/bash-result.txt'
+      - name: Check bash output
+        run: |
+          result=$(cat bash-result.txt)
+          if [ "$result" != "one two three" ]; then
+            echo "Bash test failed: expected 'one two three', got '$result'"
             exit 1
           fi
