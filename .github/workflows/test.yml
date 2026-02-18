@@ -11,21 +11,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Run docker action and set output for testing
+      - name: Run docker action
         uses: ./
-        id: run-docker
         with:
           image: docker:29.0.3
+          options: -v ${{ github.workspace }}:/work
           command: |
-            echo "docker-version=$DOCKER_VERSION" >> "$GITHUB_OUTPUT"
+            echo "$DOCKER_VERSION" > /work/docker-version.txt
       - name: Test the output
-        uses: actions/github-script@v8
-        with:
-          script: |
-            const dockerVersion = '${{ steps.run-docker.outputs.docker-version }}';
-            if (dockerVersion !== '29.0.3') {
-              core.setFailed(`Smoke Test Failed`);
-            }
+        run: |
+          result=$(cat docker-version.txt)
+          if [ "$result" != "29.0.3" ]; then
+            echo "Smoke Test Failed: expected '29.0.3', got '$result'"
+            exit 1
+          fi
 
   volume-mount-test:
     runs-on: ubuntu-latest
@@ -35,17 +34,15 @@ jobs:
         run: echo "some text" > someFile
       - name: Run docker action with mounted workspace
         uses: ./
-        id: run-docker
         with:
           image: docker
           options: -v ${{ github.workspace }}:/work
           command: |
-            echo "file-contents=$(cat /work/someFile)" >> "$GITHUB_OUTPUT"
+            cat /work/someFile > /work/result.txt
       - name: Check if file contents match
-        uses: actions/github-script@v8
-        with:
-          script: |
-            const fileContents = '${{ steps.run-docker.outputs.file-contents }}';
-            if (fileContents !== 'some text') {
-              core.setFailed(`Unable to mount workspace volume`);
-            }
+        run: |
+          result=$(cat result.txt)
+          if [ "$result" != "some text" ]; then
+            echo "Volume mount test failed: expected 'some text', got '$result'"
+            exit 1
+          fi
