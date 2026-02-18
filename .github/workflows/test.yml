@@ -35,7 +35,7 @@ jobs:
       - name: Run docker action with mounted workspace
         uses: ./
         with:
-          image: docker
+          image: docker:29.0.3
           options: -v ${{ github.workspace }}:/work
           command: |
             cat /work/someFile > /work/result.txt

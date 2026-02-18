@@ -12,11 +12,12 @@ if [ -n "$username" ] || [ -n "$password" ] || [ -n "$registry" ]; then
   printf '%s' "$password" | docker login "$registry" -u "$username" --password-stdin
 fi
 
+inputOptions="--rm ${INPUT_OPTIONS-}"
+
 command=$(printf '%s' "$INPUT_COMMAND" | tr '\n' ';')
 
 # shellcheck disable=SC2086
-exec docker run \
-    --volume "/var/run/docker.sock":"/var/run/docker.sock" \
-    ${INPUT_OPTIONS-} \
+exec docker run --rm \
+    ${inputOptions} \
     "$INPUT_IMAGE" \
     sh -c "$command"
