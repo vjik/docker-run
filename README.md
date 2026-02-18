@@ -2,6 +2,16 @@
 
 Run a command in a new Docker container.
 
+> [!IMPORTANT]
+> This project is developed and maintained by [Sergei Predvoditelev](https://github.com/vjik).
+> Community support helps keep the project actively developed and well maintained.
+> You can support the project using the following services:
+>
+> - [Boosty](https://boosty.to/vjik)
+> - [CloudTips](https://pay.cloudtips.ru/p/192ce69b)
+>
+> Thank you for your support ❤️
+
 ## General usage
 
 ### Basic
@@ -29,6 +39,19 @@ Run a command in a new Docker container.
       cd /work
       pip install -r requirements.txt
       python -m pytest tests/
+```
+
+### Using bash
+
+By default, commands run via `sh -c`. To use bash-specific syntax, invoke `bash -c` explicitly:
+
+```yaml
+- uses: vjik/github-action-docker-run@v1
+  with:
+    image: bash:5
+    volumes: ${{ github.workspace }}:/work
+    command: |
+      bash -c 'arr=(one two three); echo "${arr[@]}" > /work/result.txt'
 ```
 
 ### Private registry
