@@ -103,8 +103,8 @@ Without `registry`, authentication defaults to Docker Hub:
 
 ## Limitations
 
-- Values with spaces in the `options` input are not supported (e.g. `-e MY_VAR="Hello World"`). Use `volumes` and `env`
-  inputs instead, which handle spaces correctly.
+- Values with spaces in the `options` input are not supported (e.g. `-e MY_VAR="Hello World"`). Use `volumes`, `env` and
+  `workdir` inputs instead, which handle spaces correctly.
 - The command is executed via `sh -c`, so bash-specific syntax is not available unless the container image includes bash
   and you invoke it explicitly (e.g. `bash -c "..."`).
 
