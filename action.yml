@@ -1,0 +1,28 @@
+name: 'Docker Run Action'
+description: 'Run a command in a new container'
+author: 'Sergei Predvoditelev'
+branding:
+  icon: 'box'
+  color: 'blue'
+inputs:
+  image:
+    description: 'Docker image'
+    required: true
+  registry:
+    description: 'Registry'
+    required: false
+  username:
+    description: 'Username'
+    required: false
+  password:
+    description: 'Password'
+    required: false
+  options:
+    description: 'Options'
+    required: false
+  command:
+    description: 'Command to run into container'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
