@@ -68,3 +68,22 @@ jobs:
             echo "Multiline test failed: expected '$expected', got '$result'"
             exit 1
           fi
+
+  env-variable-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Run docker action with environment variable
+        uses: ./
+        with:
+          image: docker:29.0.3
+          options: -v ${{ github.workspace }}:/work -e GREETING="Hello World"
+          command: |
+            echo "$GREETING" > /work/env-result.txt
+      - name: Check environment variable
+        run: |
+          result=$(cat env-result.txt)
+          if [ "$result" != "Hello World" ]; then
+            echo "Env variable test failed: expected 'Hello_World', got '$result'"
+            exit 1
+          fi
