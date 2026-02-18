@@ -62,7 +62,7 @@ jobs:
       - name: Check multiline output
         run: |
           expected="line1
-            line2"
+          line2"
           result=$(cat multiline.txt)
           if [ "$result" != "$expected" ]; then
             echo "Multiline test failed: expected '$expected', got '$result'"
