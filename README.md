@@ -1,6 +1,16 @@
 # `docker-run` GitHub Action
 
-Run a command in a new Docker container.
+[![GitHub release](https://img.shields.io/github/v/release/vjik/github-action-docker-run?style=flat-square)](https://github.com/vjik/github-action-docker-run/releases)
+[![License](https://img.shields.io/github/license/vjik/github-action-docker-run?style=flat-square)](./LICENSE)
+
+GitHub Action that runs a command in a new Docker container with a simple, declarative syntax.
+
+**Features:**
+
+- Run commands in any Docker image directly from your workflow
+- Mount volumes and pass environment variables with multi-line input support
+- Authenticate with private registries (Docker Hub, GHCR, and others)
+- Pass additional `docker run` options for full flexibility
 
 > [!IMPORTANT]
 > This project is developed and maintained by [Sergei Predvoditelev](https://github.com/vjik).
